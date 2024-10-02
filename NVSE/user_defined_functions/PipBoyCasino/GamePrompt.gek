@@ -5,17 +5,9 @@ begin Function {iButton}
 
 	iCaps = Player.GetItemCount Caps001
 
-	; If banned or no chips
+	; If banned
 	if GetCasinoWinningsLevel (Goo1.AuxVarGetRef "*PipCasino_Data" 0) == 4
-
-		; Purchase chips menu
-		if eval iButton == 0 && Goo1.AuxVarGetFlt "*PipCasino_INI" == 1 && iCaps > 0
-			ShowQuantityMenu (CompileScript "PipBoyCasino\PurchaseChips.gek") iCaps 1
-
-		; Return to casino menu
-		else
-			Call (CompileScript "PipBoyCasino\MsgInit.gek")
-		endif
+		Call (CompileScript "PipBoyCasino\MsgInit.gek")
 	else
 		; Close Pip-Boy on game selection and show casino menu
 		if iButton < 3
