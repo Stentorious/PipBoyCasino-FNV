@@ -1,0 +1,48 @@
+; Pip-Boy Casino 1.0 - Stentorious
+
+; On game restart
+if Goo1.AuxVarGetFlt "*PipCasino_Init" != 1
+	Goo1.AuxVarSetFlt "*PipCasino_Init" 1
+
+	; Check for requirements
+	if GetNVSEVersion > 5 && GetNVSERevision > 2 && GetNVSEBeta > 2
+	else
+		MessageBoxEx "Pip-Boy Casino missing requirement!%rInstall xNVSE 6.3.3+."
+		return
+	endif
+	if GetPluginVersion "JohnnyGuitarNVSE" < 508
+		MessageBoxEx "Pip-Boy Casino missing requirement!%rInstall latest JohnnyGuitar NVSE plugin."
+		return
+	endif
+	if GetPluginVersion "UI Organizer Plugin" < 230
+		MessageBoxEx "Pip-Boy Casino missing requirement!%rInstall latest User Interface Organizer plugin."
+		return
+	endif
+
+	; Load INI settings
+	Goo1.AuxVarSetFlt "*PipCasino_INI" (GetINIFloat "General:bPurchaceChips" "Stentorious\PipBoyCasino.ini") 0
+
+	; ySI Addon (Buttons)
+	if GetINIFloat "ySI:bButtonIcons" "PipBoyUITweaks.ini" == 1
+		InjectUIXML "MapMenu\GLOW_BRANCH\MM_MainRect\MM_ButtonRect\MM_ButtonCasino" "data\menus\prefabs\Stentorious\PipBoyUITweaks\ySIButtonIcon.xml"
+		SetUIStringAlt "MapMenu\GLOW_BRANCH\MM_MainRect\MM_ButtonRect\MM_ButtonCasino\ySIImage\filename" "interface\icons\Misc_Card.dds"
+	endif
+
+	; Detect button press
+	SetOnMenuClickEventHandler ({int iMenuID, int iTileID, string_var sTileName} => call (CompileScript "PipBoyCasino\MsgInit.gek")) 1 "MapMenu\GLOW_BRANCH\MM_MainRect\MM_ButtonRect\MM_ButtonCasino"
+
+	; Detect "G" key press
+	SetOnKeyDownEventHandler (begin function {int iKeyID}
+		if eval (GetActiveMenuMode == 1023 && GetUIFloatAlt "MapMenu\GLOW_BRANCH\MM_Tabline\_CurrentTab" == 4)
+			call (CompileScript "PipBoyCasino\MsgInit.gek")
+		endif
+	end) 1 34
+
+	; Detect gamepad "Y" button press
+	SetEventHandler "OnButtonDown:32768" (begin function {int iKeyID}
+		if eval (GetActiveMenuMode == 1023 && GetUIFloatAlt "MapMenu\GLOW_BRANCH\MM_Tabline\_CurrentTab" == 4)
+			call (CompileScript "PipBoyCasino\MsgInit.gek")
+		endif
+	end)
+
+endif

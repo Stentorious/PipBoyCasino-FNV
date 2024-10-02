@@ -1,0 +1,38 @@
+int iButton
+int iCaps
+
+begin Function {iButton}
+
+	iCaps = Player.GetItemCount Caps001
+
+	; If banned or no chips
+	if GetCasinoWinningsLevel (Goo1.AuxVarGetRef "*PipCasino_Data" 0) == 4
+
+		; Purchase chips menu
+		if eval iButton == 0 && Goo1.AuxVarGetFlt "*PipCasino_INI" == 1 && iCaps > 0
+			ShowQuantityMenu (CompileScript "PipBoyCasino\PurchaseChips.gek") iCaps 1
+
+		; Return to casino menu
+		else
+			Call (CompileScript "PipBoyCasino\MsgInit.gek")
+		endif
+	else
+		; Close Pip-Boy on game selection and show casino menu
+		if iButton < 3
+			TogglePipBoy
+			CallAfterFrames 0 (CompileScript "PipBoyCasino\ShowCasinoMenu.gek") 1 (Goo1.AuxVarGetRef "*PipCasino_Data" 0) iButton (Goo1.AuxVarGetFlt "*PipCasino_Data" 1)  (Goo1.AuxVarGetFlt "*PipCasino_Data" 2)
+			Goo1.AuxVarErase "*PipCasino_Data"
+
+		; Purchase chips menu
+		elseif eval iButton == 3 && Goo1.AuxVarGetFlt "*PipCasino_INI" == 1
+			if iCaps > 0
+				ShowQuantityMenu (CompileScript "PipBoyCasino\PurchaseChips.gek") iCaps 1
+			endif
+
+		; Return to casino menu
+		else
+			Call (CompileScript "PipBoyCasino\MsgInit.gek")
+		endif
+	endif
+
+end

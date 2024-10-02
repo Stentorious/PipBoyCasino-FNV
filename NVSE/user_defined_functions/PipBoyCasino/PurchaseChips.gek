@@ -1,0 +1,12 @@
+int iQuantity
+
+begin Function {iQuantity}
+
+	if iQuantity > 0
+		Player.RemoveItem Caps001 iQuantity 1
+		Player.AddItem (Goo1.AuxVarGetRef "*PipCasino_Data" 3) iQuantity 1
+	endif
+
+	Call (CompileScript "PipBoyCasino\CasinoPrompt.gek") (Goo1.AuxVarGetFlt "*PipCasino_Flt" 1)
+
+end

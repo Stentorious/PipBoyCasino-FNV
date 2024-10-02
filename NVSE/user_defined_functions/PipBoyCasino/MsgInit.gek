@@ -1,0 +1,50 @@
+int iCount
+ref rCasino
+ref rChip
+array_var aCasinoData
+array_var aForE
+string_var sEditorID
+string_var sMsgBox
+
+begin Function {}
+
+	; Clear selected casino data
+	Goo1.AuxVarErase "*PipCasino_Data"
+
+	; Builds the casino message box
+	sMsgBox = "^Pip-Boy Casino^"
+	Goo1.AuxVarErase "*PipCasino_Ref"
+	foreach aForE <- (GetINISection "Casinos" "Stentorious\PipBoyCasino.ini")
+		sEditorID = aForE["key"]
+		rCasino = EditorIDToFormID (sEditorID)
+		aCasinoData = Sv_Split (*aForE) "|"
+
+		; Verify config format
+		if eval IsFormValid rCasino && (Ar_Size aCasinoData) == 4
+			rChip = EditorIDToFormID (aCasinoData[0])
+
+			; If valid chip form, winnings threshold met, minimum bet met or can purchase chips
+			if eval IsFormValid rChip && GetCasinoWinningsLevel rCasino >= #aCasinoData[3] && (Player.GetItemCount rChip >= #aCasinoData[1] || Goo1.AuxVarGetFlt "*PipCasino_INI" == 1)
+				Goo1.AuxVarSetStr "*PipCasino_Ref" (sEditorID) -1
+				sMsgBox = sv_Construct "%z|%n" sMsgBox rCasino
+				iCount += 1
+			endif
+		endif
+	loop
+
+	; Cache number of casinos
+	Goo1.AuxVarSetFlt "*PipCasino_Flt" iCount 0
+
+	; Show no valid casino warning
+	if iCount == 0
+		MessageBoxExAlt (CompileScript "PipBoyCasino\CasinoPrompt.gek") "%z|None Found" sMsgBox
+
+	; Show casino message box
+	else
+		MessageBoxExAlt (CompileScript "PipBoyCasino\CasinoPrompt.gek") "%z|%z" sMsgBox (GetStringSetting "sCancel")
+	endif
+
+	aCasinoData = aForE = ar_Null
+	sv_Destruct sEditorID sMsgBox
+
+end

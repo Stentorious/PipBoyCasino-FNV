@@ -1,0 +1,45 @@
+int iButton
+ref rCasino
+ref rChip
+array_var aCasinoData
+array_var aCompStatus
+string_var sEditorID
+
+begin Function {iButton}
+
+	; On casino selection
+	if iButton < Goo1.AuxVarGetFlt "*PipCasino_Flt" 0
+		Goo1.AuxVarSetFlt "*PipCasino_Flt" iButton 1
+
+		; Cache casino data
+		sEditorID = Goo1.AuxVarGetStr "*PipCasino_Ref" iButton
+		aCasinoData = Sv_Split (GetINIString ("Casinos:" + (sEditorID)) "Stentorious\PipBoyCasino.ini") "|"
+		rCasino = EditorIDToFormID (sEditorID)
+		rChip = EditorIDToFormID (aCasinoData[0])
+		Goo1.AuxVarSetRef "*PipCasino_Data" rCasino 0
+		Goo1.AuxVarSetFlt "*PipCasino_Data" (#aCasinoData[1]) 1
+		Goo1.AuxVarSetFlt "*PipCasino_Data" (#aCasinoData[2]) 2
+		Goo1.AuxVarSetRef "*PipCasino_Data" rChip 3
+
+		; Comp status
+		aCompStatus = ar_List "Nobody", "Small Fry", "Big Winner", "Whale", "Banned"
+
+		; Display casino games message box
+		; Banned
+		if eval GetCasinoWinningsLevel rCasino == 4
+			MessageBoxExAlt (CompileScript "PipBoyCasino\GamePrompt.gek") "^%n^%z%g%r%z: %z|%z" rCasino (GetStringSetting "sChipCountText") (Player.GetItemCount rChip) (GetStringSetting "sStatsStatus") (aCompStatus[(GetCasinoWinningsLevel rCasino)]) (GetStringSetting "sCancel")
+
+		; Can purchase chips
+		elseif eval Goo1.AuxVarGetFlt "*PipCasino_INI" == 1 && Player.GetItemCount Caps001 > 0
+			MessageBoxExAlt (CompileScript "PipBoyCasino\GamePrompt.gek") "^%n^%z%g%r%z: %z|Slots|Roulette|Blackjack|Purchase Chips|%z" rCasino (GetStringSetting "sChipCountText") (Player.GetItemCount rChip) (GetStringSetting "sStatsStatus") (aCompStatus[(GetCasinoWinningsLevel rCasino)]) (GetStringSetting "sCancel")
+
+		; Can't purchase chips
+		else
+			MessageBoxExAlt (CompileScript "PipBoyCasino\GamePrompt.gek") "^%n^%z%g%r%z: %z|Slots|Roulette|Blackjack|%z" rCasino (GetStringSetting "sChipCountText") (Player.GetItemCount rChip) (GetStringSetting "sStatsStatus") (aCompStatus[(GetCasinoWinningsLevel rCasino)]) (GetStringSetting "sCancel")
+		endif
+
+		aCasinoData = aCompStatus = ar_Null
+		sv_Destruct sEditorID
+
+	endif
+end
