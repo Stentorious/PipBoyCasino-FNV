@@ -1,4 +1,4 @@
-; Pip-Boy Casino 1.0 - Stentorious
+; Pip-Boy Casino - Stentorious
 
 ; On game restart
 if Goo1.AuxVarGetFlt "*PipCasino_Init" != 1
