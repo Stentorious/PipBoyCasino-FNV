@@ -1,4 +1,6 @@
 Stentorious\PipBoyCasino\Button.xml::MapMenu::MM_ButtonRect
 !darnui
+True
 Stentorious\PipBoyCasino\ButtonDarn.xml::MapMenu::MM_ButtonRect
-#darnui
+darnui
+True
