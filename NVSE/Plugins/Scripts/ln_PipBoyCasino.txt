@@ -23,7 +23,7 @@ if Goo1.AuxVarGetFlt "*PipCasino_Init" != 1
 	Goo1.AuxVarSetFlt "*PipCasino_INI" (GetINIFloat "General:bPurchaceChips" "Stentorious\PipBoyCasino.ini") 0
 
 	; ySI Addon (Buttons)
-	if eval GetINIFloat "ySI:bButtonIcons" "PipBoyUITweaks.ini" == 1 && FileExists "menus\ySI\ySI.xml"
+	if eval GetINIFloat "ySI:bButtonIcons" "Stentorious\PipBoyUITweaks.ini" && GetPluginVersion "yUI" >= 140 && FileExists "menus\ySI\ySI.xml"
 		InjectUIXML "MapMenu\GLOW_BRANCH\MM_MainRect\MM_ButtonRect\MM_ButtonCasino" "data\menus\prefabs\Stentorious\PipBoyUITweaks\ySIButtonIcon.xml"
 		SetUIStringAlt "MapMenu\GLOW_BRANCH\MM_MainRect\MM_ButtonRect\MM_ButtonCasino\ySIImage\filename" "interface\icons\Misc_Card.dds"
 	endif
