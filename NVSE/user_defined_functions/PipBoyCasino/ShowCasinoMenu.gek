@@ -7,7 +7,7 @@ begin Function {rCasino, iGame, iMinBet, iMaxBet}
 
 	; Show slot menu
 	if iGame == 0
-		SSLMP rCasino iMinBet (Floor (iMaxBet / 4)) 0
+		SSLMP rCasino iMinBet (Ceil (iMaxBet / 4)) 0
 
 	; Show roulette menu
 	elseif iGame == 1
