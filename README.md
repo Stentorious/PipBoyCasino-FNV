@@ -21,7 +21,7 @@
 - Select your desired casino and game type.
 - By default casinos will be inaccessible until you reach their 1st winnings threshold.
 <p align="left">
-    <img height="250px" src="https://i.imgur.com/dsIYQKy.png">
+    <img height="300px" src="https://i.imgur.com/dsIYQKy.png">
 </p>
 
 ## Configuration
