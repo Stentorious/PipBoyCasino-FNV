@@ -27,15 +27,15 @@ begin Function {iButton}
 		; Display casino games message box
 		; Banned
 		if eval GetCasinoWinningsLevel rCasino == 4
-			MessageBoxExAlt (CompileScript "PipBoyCasino\GamePrompt.gek") "^%n^%z%g%r%z: %z|%z" rCasino (GetStringSetting "sChipCountText") (Player.GetItemCount rChip) (GetStringSetting "sStatsStatus") (aCompStatus[(GetCasinoWinningsLevel rCasino)]) (GetStringSetting "sCancel")
+			MessageBoxExAlt (CompileScript "PipBoyCasino\GamePrompt.gek") "^%n^%z%g%r%z: %z%r%z%g|%z" rCasino (GetStringSetting "sChipCountText") (Player.GetItemCount rChip) (GetStringSetting "sStatsStatus") (aCompStatus[(GetCasinoWinningsLevel rCasino)]) (GetStringSetting "sCasinoEarningsText") (GetCasinoWinnings rCasino) (GetStringSetting "sCancel")
 
 		; Can purchase chips
 		elseif eval Goo1.AuxVarGetFlt "*PipCasino_INI" == 1 && Player.GetItemCount Caps001 > 0
-			MessageBoxExAlt (CompileScript "PipBoyCasino\GamePrompt.gek") "^%n^%z%g%r%z: %z|Slots|Roulette|Blackjack|Purchase Chips|%z" rCasino (GetStringSetting "sChipCountText") (Player.GetItemCount rChip) (GetStringSetting "sStatsStatus") (aCompStatus[(GetCasinoWinningsLevel rCasino)]) (GetStringSetting "sCancel")
+			MessageBoxExAlt (CompileScript "PipBoyCasino\GamePrompt.gek") "^%n^%z%g%r%z: %z%r%z%g|Slots|Roulette|Blackjack|Purchase Chips|%z" rCasino (GetStringSetting "sChipCountText") (Player.GetItemCount rChip) (GetStringSetting "sStatsStatus") (aCompStatus[(GetCasinoWinningsLevel rCasino)]) (GetStringSetting "sCasinoEarningsText") (GetCasinoWinnings rCasino) (GetStringSetting "sCancel")
 
 		; Can't purchase chips
 		else
-			MessageBoxExAlt (CompileScript "PipBoyCasino\GamePrompt.gek") "^%n^%z%g%r%z: %z|Slots|Roulette|Blackjack|%z" rCasino (GetStringSetting "sChipCountText") (Player.GetItemCount rChip) (GetStringSetting "sStatsStatus") (aCompStatus[(GetCasinoWinningsLevel rCasino)]) (GetStringSetting "sCancel")
+			MessageBoxExAlt (CompileScript "PipBoyCasino\GamePrompt.gek") "^%n^%z%g%r%z: %z%r%z%g|Slots|Roulette|Blackjack|%z" rCasino (GetStringSetting "sChipCountText") (Player.GetItemCount rChip) (GetStringSetting "sStatsStatus") (aCompStatus[(GetCasinoWinningsLevel rCasino)]) (GetStringSetting "sCasinoEarningsText") (GetCasinoWinnings rCasino) (GetStringSetting "sCancel")
 		endif
 
 		aCasinoData = aCompStatus = ar_Null
